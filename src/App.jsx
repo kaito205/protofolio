@@ -276,7 +276,7 @@ const App = () => {
       </div>
       
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-[1000] border-b border-white/5 transition-all duration-500 ${isScrolled ? 'bg-[#020617]/90 backdrop-blur-2xl py-4' : 'py-8'}`}>
+      <nav className={`fixed top-0 w-full z-[1000] border-b border-white/5 transition-all duration-500 ${isScrolled ? 'bg-[#020617]/90 backdrop-blur-2xl py-3' : 'py-5'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <motion.a 
             href="#" 
@@ -305,7 +305,7 @@ const App = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative h-screen flex items-center overflow-hidden">
+      <section id="home" className="relative h-screen flex items-center pt-32 overflow-hidden">
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#020617] to-transparent z-10"></div>
         
         {/* Moonlight Effect */}
