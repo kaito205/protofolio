@@ -815,7 +815,7 @@ const App = () => {
             <div className="grid lg:grid-cols-2 gap-24 relative z-10">
               <div>
                 <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-8 block">Inquiry</span>
-                <h2 className="text-7xl font-serif italic font-bold mb-10 leading-tight">Leave a <br/><span className="kaito-gradient-text">Call Card</span>.</h2>
+                <h4 className="text-4xl font-serif italic font-bold mb-10 leading-tight">Leave a <span className="kaito-gradient-text">Call Card</span>.</h4>
                 <p className="text-slate-400 text-lg leading-relaxed mb-12 font-light">
                   Saya saat ini menerima proyek baru dan tawaran kolaborasi. Tinggalkan pesan, dan saya akan muncul pada waktu yang telah ditentukan.
                 </p>
