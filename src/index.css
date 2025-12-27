@@ -6,6 +6,11 @@
   --font-serif: "Playfair Display", serif;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
 :root {
   --bg-dark: #020617; /* Deep Navy Night */
   --bg-card: rgba(255, 255, 255, 0.02);
@@ -28,6 +33,7 @@ body {
 .kaito-gradient-text {
   background: linear-gradient(135deg, #ffffff 0%, #94a3b8 50%, #2563eb 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -43,9 +49,22 @@ body {
   box-shadow: 0 0 50px rgba(37, 99, 235, 0.2);
 }
 
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
 /* Starry Background Effect */
 .stars-container {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background-image: 
     radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
@@ -55,6 +74,33 @@ body {
     radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
     radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0,0,0,0));
   background-repeat: repeat;
-  background-size: 200px 200px;
-  opacity: 0.15;
+  background-size: 300px 300px;
+  opacity: 0.35;
+  animation: stars-drift 80s linear infinite;
+  z-index: 0;
+}
+
+@keyframes stars-drift {
+  from { background-position: 0 0; }
+  to { background-position: 1000px 1000px; }
+}
+
+.magic-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.floating-card-bg {
+  position: fixed;
+  width: 80px;
+  height: 120px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
 }
