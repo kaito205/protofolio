@@ -8,7 +8,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 150px;
+  scroll-padding-top: 80px;
 }
 
 :root {
@@ -21,6 +21,7 @@ html {
   --text-main: #f8fafc;
   --text-dim: #94a3b8;
   --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --will-change: transform, opacity;
 }
 
 body {
@@ -81,8 +82,12 @@ body {
 }
 
 @keyframes stars-drift {
-  from { background-position: 0 0; }
-  to { background-position: 1000px 1000px; }
+  from { transform: translateY(0); }
+  to { transform: translateY(-300px); }
+}
+
+.stars-container {
+  will-change: transform;
 }
 
 .magic-particle {
@@ -90,6 +95,7 @@ body {
   pointer-events: none;
   z-index: 1;
   opacity: 0.3;
+  will-change: transform, opacity;
 }
 
 .floating-card-bg {
@@ -98,9 +104,15 @@ body {
   height: 120px;
   border: 2px solid rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
   border-radius: 6px;
   pointer-events: none;
   z-index: 1;
   box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
+  will-change: transform, opacity;
+}
+
+@media (min-width: 768px) {
+  .floating-card-bg {
+    backdrop-filter: blur(8px);
+  }
 }

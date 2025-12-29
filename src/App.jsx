@@ -45,7 +45,7 @@ const MusicPlayer = () => {
   };
 
   return (
-    <div className="fixed bottom-10 right-10 z-[2000] flex items-center gap-4">
+    <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[2000] flex items-center gap-4">
       <audio ref={audioRef} loop src="/assets/kaito-theme.mp3" />
       
       <AnimatePresence>
@@ -54,7 +54,7 @@ const MusicPlayer = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
-            className="bg-white/5 backdrop-blur-md border kaito-border px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-blue-400 flex items-center gap-2"
+            className="bg-white/5 backdrop-blur-md border kaito-border px-4 py-2 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-widest text-blue-400 flex items-center gap-2"
           >
             <div className="flex gap-1">
               {[1, 2, 3, 4].map(i => (
@@ -66,7 +66,8 @@ const MusicPlayer = () => {
                 />
               ))}
             </div>
-            Now Playing: Kaito's Theme
+            <span className="hidden sm:inline">Now Playing: Kaito's Theme</span>
+            <span className="sm:hidden">Playing...</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -75,10 +76,10 @@ const MusicPlayer = () => {
         whileHover={{ scale: 1.1, rotate: 5 }}
         whileTap={{ scale: 0.9 }}
         onClick={toggleMusic}
-        className="w-14 h-14 bg-white text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-blue-600 hover:text-white transition-colors relative group"
+        className="w-10 h-10 md:w-14 md:h-14 bg-white text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:bg-blue-600 hover:text-white transition-colors relative group"
       >
-        {isPlaying ? <Volume2 size={24} /> : <VolumeX size={24} />}
-        <div className="absolute inset-0 rounded-full border-2 border-white/20 scale-125 animate-ping opacity-20 pointer-events-none"></div>
+        {isPlaying ? <Volume2 size={18} className="md:w-6 md:h-6" /> : <VolumeX size={18} className="md:w-6 md:h-6" />}
+        {isPlaying && <div className="absolute inset-0 rounded-full border-2 border-white/20 scale-125 animate-[ping_2s_infinite] opacity-20 pointer-events-none"></div>}
       </motion.button>
     </div>
   );
@@ -105,9 +106,9 @@ const Preloader = ({ finishLoading }) => {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
-        className="relative z-10 flex flex-col items-center"
+        className="relative z-10 flex flex-col items-center px-6 text-center"
       >
-        <div className="relative w-24 h-36 mb-12 preserve-3d">
+        <div className="relative w-16 h-24 sm:w-24 sm:h-36 mb-8 sm:mb-12 preserve-3d">
             <motion.div 
                 animate={{ 
                     rotateY: [0, 180, 360, 540, 720],
@@ -116,14 +117,15 @@ const Preloader = ({ finishLoading }) => {
                 transition={{ 
                     duration: 3, 
                     ease: "easeInOut",
-                    times: [0, 0.25, 0.5, 0.75, 1]
+                    times: [0, 0.25, 0.5, 0.75, 1],
+                    repeat: Infinity
                 }}
                 className="w-full h-full border-2 border-white/20 rounded-[8px] bg-white/5 flex items-center justify-center backdrop-blur-md relative"
             >
-                <div className="text-white/40 text-4xl font-serif">A</div>
+                <div className="text-white/40 text-2xl sm:text-4xl font-serif">A</div>
                 <div className="absolute inset-2 border border-white/10 rounded-[4px]"></div>
             </motion.div>
-            <div className="absolute inset-0 bg-blue-500/20 blur-[40px] -z-10 animate-pulse"></div>
+            <div className="absolute inset-0 bg-blue-500/20 blur-[30px] sm:blur-[40px] -z-10 animate-pulse"></div>
         </div>
 
         <div className="overflow-hidden">
@@ -131,13 +133,13 @@ const Preloader = ({ finishLoading }) => {
                 initial={{ y: 100 }}
                 animate={{ y: 0 }}
                 transition={{ delay: 0.5, duration: 0.8, ease: "circOut" }}
-                className="text-white font-black uppercase tracking-[1em] text-xs mb-4 ml-[1em]"
+                className="text-white font-black uppercase tracking-[0.6em] sm:tracking-[1em] text-[8px] sm:text-xs mb-4 ml-[0.6em] sm:ml-[1em]"
             >
                 Preparing the Heist
             </motion.h2>
         </div>
 
-        <div className="w-48 h-[1px] bg-white/10 relative overflow-hidden">
+        <div className="w-32 sm:w-48 h-[1px] bg-white/10 relative overflow-hidden">
             <motion.div 
                 initial={{ left: "-100%" }}
                 animate={{ left: "100%" }}
@@ -149,8 +151,8 @@ const Preloader = ({ finishLoading }) => {
         <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 1, 0] }}
-            transition={{ delay: 2.5, duration: 1 }}
-            className="mt-8 font-serif italic text-2xl text-blue-400"
+            transition={{ delay: 2.5, duration: 1.5, repeat: Infinity }}
+            className="mt-6 sm:mt-8 font-serif italic text-xl sm:text-2xl text-blue-400"
         >
             "It's Showtime!"
         </motion.div>
@@ -163,6 +165,7 @@ const Preloader = ({ finishLoading }) => {
 const App = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -187,25 +190,33 @@ const App = () => {
     { icon: Mail, href: "mailto:bochilandi85@gmail.com", label: "Email" }
   ];
 
-  // Magical Background Elements - Memoized to prevent jumping on re-renders
-  const cardData = useMemo(() => Array.from({ length: 15 }).map((_, i) => ({
-    initialX: (i * (100 / 15)) + (Math.random() * 5 - 2.5) + "%",
-    driftX: [(Math.random() * 100) + "%", (Math.random() * 100) + "%"],
-    duration: 25 + Math.random() * 25,
-    delay: i * 2,
-    initialRotate: Math.random() * 360,
-    targetRotate: [Math.random() * 360, Math.random() * 720],
-    symbol: i % 3 === 0 ? "A" : i % 3 === 1 ? "K" : "Q"
-  })), []);
+  // Magical Background Elements - Optimized counts for better performance
+  const cardData = useMemo(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const count = isMobile ? 6 : 12;
+    return Array.from({ length: count }).map((_, i) => ({
+      initialX: (i * (100 / count)) + (Math.random() * 5 - 2.5) + "%",
+      driftX: [(Math.random() * 80) + "%", (Math.random() * 100) + "%"],
+      duration: 30 + Math.random() * 30,
+      delay: i * 2,
+      initialRotate: Math.random() * 360,
+      targetRotate: [Math.random() * 360, Math.random() * 720],
+      symbol: i % 3 === 0 ? "A" : i % 3 === 1 ? "K" : "Q"
+    }));
+  }, []);
 
-  const particleData = useMemo(() => Array.from({ length: 40 }).map((_, i) => ({
-    size: Math.random() * 4 + 2 + "px",
-    initialX: Math.random() * 100 + "%",
-    initialY: Math.random() * 100 + "%",
-    driftX: [(Math.random() * -15 + 7.5) + "%", (Math.random() * 15 - 7.5) + "%"],
-    duration: 10 + Math.random() * 15,
-    delay: Math.random() * 10
-  })), []);
+  const particleData = useMemo(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const count = isMobile ? 15 : 30;
+    return Array.from({ length: count }).map((_, i) => ({
+      size: Math.random() * 3 + 1 + "px",
+      initialX: Math.random() * 100 + "%",
+      initialY: Math.random() * 100 + "%",
+      driftX: [(Math.random() * -10 + 5) + "%", (Math.random() * 10 - 5) + "%"],
+      duration: 15 + Math.random() * 15,
+      delay: Math.random() * 10
+    }));
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
@@ -290,7 +301,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <motion.a 
             href="#" 
-            className="text-3xl font-bold tracking-tighter"
+            className="text-2xl md:text-3xl font-bold tracking-tighter"
             whileHover={{ scale: 1.05 }}
           >
             MAJMU<span className="text-blue-500">.</span>
@@ -311,7 +322,129 @@ const App = () => {
               <a href="#contact" className="bg-white text-black hover:bg-blue-50 px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-1 shadow-[0_0_20px_rgba(255,255,255,0.2)]">Connect</a>
             </li>
           </ul>
+
+          {/* Mobile Menu Toggle - Kaito Kid Diamond Style */}
+          <button 
+            className="md:hidden relative w-12 h-12 flex items-center justify-center group"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {/* Diamond Frame */}
+            <AnimatePresence mode="wait">
+              {isMobileMenuOpen && (
+                <motion.div 
+                  key="diamond-frame"
+                  initial={{ rotate: 45, scale: 0, opacity: 0 }}
+                  animate={{ rotate: 225, scale: 1.1, opacity: 1, borderColor: "#2563eb", backgroundColor: "rgba(37, 99, 235, 0.2)" }}
+                  exit={{ rotate: 45, scale: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute w-8 h-8 border-2 backdrop-blur-md shadow-[0_0_15px_rgba(37,99,235,0.1)]"
+                />
+              )}
+            </AnimatePresence>
+            
+            {/* Default State Diamond (Only visible when closed) */}
+            {!isMobileMenuOpen && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="absolute w-8 h-8 border-2 border-white/20 bg-white/5 rotate-45"
+              />
+            )}
+            
+            {/* Inner Bars */}
+            <div className="relative w-5 h-4 flex flex-col justify-between items-center z-10">
+              <motion.span 
+                animate={isMobileMenuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+                className="h-0.5 w-full bg-white origin-center"
+              />
+              <motion.span 
+                animate={isMobileMenuOpen ? { opacity: 0, x: -10 } : { opacity: 1, x: 0 }}
+                className="h-0.5 w-full bg-white"
+              />
+              <motion.span 
+                animate={isMobileMenuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+                className="h-0.5 w-full bg-white origin-center"
+              />
+            </div>
+
+            {/* Magic Sparkle Effect */}
+            <AnimatePresence mode="wait">
+              {isMobileMenuOpen && (
+                <motion.div
+                  key="menu-sparkle"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: [0, 1, 0], scale: [0.5, 2, 0.5], rotate: [0, 90, 180] }}
+                  exit={{ opacity: 0, scale: 0 }}
+                  transition={{ 
+                    duration: 0.8, 
+                    repeat: Infinity,
+                    exit: { duration: 0.2 } 
+                  }}
+                  className="absolute pointer-events-none"
+                >
+                  <Sparkles size={20} className="text-blue-400" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
         </div>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="md:hidden bg-[#020617] border-b border-white/5 overflow-hidden fixed top-[73px] left-0 w-full z-[999]"
+            >
+              <div className="px-6 py-8 flex flex-col gap-6">
+                {navLinks.map((link) => (
+                  <button 
+                    key={link.name} 
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setTimeout(() => {
+                        const target = document.querySelector(link.href);
+                        if (target) {
+                          const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
+                          window.scrollTo({ top: topOffset, behavior: 'smooth' });
+                        }
+                      }, 500);
+                    }}
+                    className="text-left text-lg font-bold hover:text-blue-400 transition-colors uppercase tracking-widest text-[#f8fafc]"
+                  >
+                    {link.name}
+                  </button>
+                ))}
+                <a 
+                  href="/CV_Muhammad_Jaja_Maulana.pdf" 
+                  download 
+                  className="text-slate-400 text-sm font-bold uppercase tracking-widest flex items-center gap-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <FileUser size={18} /> License
+                </a>
+                <button 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setTimeout(() => {
+                      const target = document.querySelector('#contact');
+                      if (target) {
+                        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
+                        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+                      }
+                    }, 500);
+                  }}
+                  className="bg-white text-black text-center py-4 rounded-full text-sm font-black uppercase tracking-widest"
+                >
+                  Connect
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Hero Section */}
@@ -340,7 +473,7 @@ const App = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 1.2 }}
-              className="text-7xl md:text-9xl font-bold leading-[0.9] mb-8 tracking-tighter italic font-serif"
+              className="text-5xl sm:text-7xl md:text-9xl font-bold leading-[0.9] mb-8 tracking-tighter italic font-serif"
             >
               It's <br />
               <span className="kaito-gradient-text">Showtime!</span>
@@ -363,7 +496,7 @@ const App = () => {
                 whileHover={{ scale: 1.1, boxShadow: "0 0 30px rgba(255,255,255,0.3)" }}
                 whileTap={{ scale: 0.95 }}
                 href="#projects" 
-                className="group flex items-center gap-3 bg-white text-black px-10 py-5 rounded-[2px] font-black uppercase tracking-widest text-xs transition-colors hover:bg-blue-600 hover:text-white"
+                className="group flex items-center justify-center gap-3 bg-white text-black px-6 md:px-10 py-4 md:py-5 rounded-[2px] font-black uppercase tracking-widest text-[10px] md:text-xs transition-colors hover:bg-blue-600 hover:text-white w-full sm:w-auto"
               >
                 Behold My Work
                   <Sparkles size={16} />
@@ -371,7 +504,7 @@ const App = () => {
               <motion.a 
                 whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
                 href="#contact" 
-                className="group flex items-center gap-3 border border-white/20 px-10 py-5 rounded-[2px] text-xs font-black uppercase tracking-widest transition-all"
+                className="group flex items-center justify-center gap-3 border border-white/20 px-6 md:px-10 py-4 md:py-5 rounded-[2px] text-[10px] md:text-xs font-black uppercase tracking-widest transition-all w-full sm:w-auto"
               >
                The Heist<ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </motion.a>
@@ -423,14 +556,14 @@ const App = () => {
               
               {/* Front Face (4.png) */}
               <div className="backface-hidden relative border kaito-border p-3 bg-slate-900 shadow-2xl rounded-[8px]">
-                 <img src="/assets/4.png" alt="Kaito Kid Front" className="w-full grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700" />
+                 <img src="/assets/4.png" alt="Kaito Kid Front" loading="lazy" className="w-full grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700" />
                  <div className="absolute top-4 left-4 text-white/50 text-2xl font-serif">A</div>
                  <div className="absolute bottom-4 right-4 text-white/50 text-2xl font-serif rotate-180">A</div>
               </div>
 
               {/* Back Face (3.png) */}
               <div className="backface-hidden rotate-y-180 absolute inset-0 border kaito-border p-3 bg-slate-900 shadow-2xl rounded-[8px]">
-                 <img src="/assets/3.png" alt="Kaito Kid Back" className="w-full grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700" />
+                 <img src="/assets/3.png" alt="Kaito Kid Back" loading="lazy" className="w-full grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700" />
                  <div className="absolute top-4 left-4 text-blue-500/50 text-2xl font-serif">K</div>
                  <div className="absolute bottom-4 right-4 text-blue-500/50 text-2xl font-serif rotate-180">K</div>
               </div>
@@ -447,6 +580,7 @@ const App = () => {
             <div className="w-10 h-16 border kaito-border rounded-[4px] bg-white/5 backdrop-blur-sm flex items-center justify-center">
                 <div className="w-1 h-1 bg-white rounded-full animate-bounce"></div>
             </div>
+            <span className="text-[8px] font-black uppercase tracking-[0.3em] text-white/20 mt-2 block text-center">Scroll</span>
         </motion.div>
       </section>
 
@@ -466,7 +600,7 @@ const App = () => {
                    whileInView={{ opacity: 1, scale: 1, rotateY: 0, filter: "blur(0px)" }}
                    viewport={{ once: true, amount: 0.3 }}
                    transition={{ duration: 1.2, delay: idx * 0.2, ease: [0.16, 1, 0.3, 1] }}
-                   className="p-10 bg-white/5 kaito-border rounded-[2px] hover:bg-blue-600/10 transition-colors group"
+                   className="p-6 md:p-10 bg-white/5 kaito-border rounded-[2px] hover:bg-blue-600/10 transition-colors group text-center md:text-left"
                 >
                    <div className="text-blue-500 mb-4 group-hover:scale-110 transition-transform">{item.icon}</div>
                    <h3 className="text-2xl font-bold mb-1">{item.val}</h3>
@@ -482,7 +616,7 @@ const App = () => {
             className="order-1 md:order-2"
           >
             <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Biography</span>
-            <h2 className="text-6xl font-serif italic font-bold mb-10 leading-tight">Mastering the Art of <span className="kaito-gradient-text">Invisible Code</span>.</h2>
+            <h2 className="text-4xl md:text-6xl font-serif italic font-bold mb-10 leading-tight">Mastering the Art of <span className="kaito-gradient-text">Invisible Code</span>.</h2>
             <p className="text-slate-400 text-lg leading-relaxed mb-8 font-light">
               Layaknya seorang pencuri bayangan yang tidak meninggalkan jejak, saya membangun arsitektur yang mulus, efisien, dan memiliki kekuatan yang misterius. Fokus saya adalah menciptakan pengalaman digital yang terasa seperti keajaiban bagi pengguna, namun tetap kokoh dan profesional di balik layar.
             </p>
@@ -505,7 +639,7 @@ const App = () => {
           >
             <div>
               <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">The Heists</span>
-              <h2 className="text-7xl font-serif italic font-bold tracking-tighter">Acquired <span className="kaito-gradient-text">Treasures</span></h2>
+              <h2 className="text-5xl md:text-7xl font-serif italic font-bold tracking-tighter">Acquired <span className="kaito-gradient-text">Treasures</span></h2>
             </div>
             <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.2em] md:max-w-xs mt-6 md:mt-0">Koleksi karya terpilih di mana performa bertemu dengan elegan.</p>
           </motion.div>
@@ -568,10 +702,10 @@ const App = () => {
                   rotateZ: 0.5,
                   transition: { type: "spring", stiffness: 300, damping: 20 }
                 }}
-                className="group kaito-border bg-[#020617] p-4 kaito-card-shadow transition-all perspective-1000"
+                className="group kaito-border bg-[#020617] p-2 md:p-4 kaito-card-shadow transition-all perspective-1000"
               >
-                <div className="h-80 overflow-hidden relative border border-white/5 mb-8">
-                  <img src={p.img} alt={p.title} className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110" />
+                <div className="h-48 sm:h-64 md:h-80 overflow-hidden relative border border-white/5 mb-8">
+                  <img src={p.img} alt={p.title} loading="lazy" className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110" />
                   <div className="absolute top-4 right-4 px-3 py-1 bg-white text-black text-[10px] font-black uppercase tracking-widest translate-x-12 group-hover:translate-x-0 transition-transform duration-500">The Target</div>
                 </div>
                 <div className="px-4 pb-4">
@@ -582,11 +716,11 @@ const App = () => {
                   <div className="space-y-4 mb-8 border-l border-white/10 pl-4 py-2 opacity-40 group-hover:opacity-100 transition-opacity">
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-widest text-blue-500 block mb-1">The Challenge</span>
-                      <p className="text-xs text-slate-300 font-light italic">"{p.challenge}"</p>
+                      <p className="text-[10px] md:text-xs text-slate-300 font-light italic">"{p.challenge}"</p>
                     </div>
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-widest text-white block mb-1">The Solution</span>
-                      <p className="text-xs text-slate-300 font-light italic">"{p.solution}"</p>
+                      <p className="text-[10px] md:text-xs text-slate-300 font-light italic">"{p.solution}"</p>
                     </div>
                   </div>
 
@@ -614,7 +748,7 @@ const App = () => {
             className="text-center mb-24"
           >
             <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Secret Techniques</span>
-            <h2 className="text-7xl font-serif italic font-bold">The <span className="kaito-gradient-text">Tricks</span></h2>
+            <h2 className="text-5xl md:text-7xl font-serif italic font-bold">The <span className="kaito-gradient-text">Tricks</span></h2>
           </motion.div>
           
           <motion.div 
@@ -654,7 +788,7 @@ const App = () => {
                   backgroundColor: "rgba(37, 99, 235, 0.1)",
                   boxShadow: "0 0 40px rgba(37, 99, 235, 0.2)"
                 }}
-                className="w-[140px] p-6 border kaito-border flex flex-col items-center gap-4 text-center group transition-colors rounded-[2px]"
+                className="w-[100px] md:w-[140px] p-4 md:p-6 border kaito-border flex flex-col items-center gap-4 text-center group transition-colors rounded-[2px]"
               >
                 <div className="text-white opacity-40 group-hover:opacity-100 group-hover:text-blue-500 transition-all">{s.icon}</div>
                 <span className="text-[10px] font-black uppercase tracking-widest">{s.label}</span>
@@ -675,7 +809,7 @@ const App = () => {
             className="text-right mb-24"
           >
             <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Service Request</span>
-            <h2 className="text-7xl font-serif italic font-bold">Planned <span className="kaito-gradient-text">Contracts</span></h2>
+            <h2 className="text-5xl md:text-7xl font-serif italic font-bold">Planned <span className="kaito-gradient-text">Contracts</span></h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -746,7 +880,7 @@ const App = () => {
             className="mb-20"
           >
             <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block text-center">Interrogation Room</span>
-            <h2 className="text-7xl font-serif italic font-bold text-center tracking-tighter">Witness <span className="kaito-gradient-text">Testimonies</span></h2>
+            <h2 className="text-5xl md:text-7xl font-serif italic font-bold text-center tracking-tighter">Witness <span className="kaito-gradient-text">Testimonies</span></h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -798,8 +932,8 @@ const App = () => {
           </div>
         </div>
         
-        {/* Background Decorative Element */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+        {/* Background Decorative Element - Optimized Blur for performance */}
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/5 rounded-full blur-[80px] md:blur-[120px] pointer-events-none"></div>
       </section>
 
       {/* Contact */}
@@ -810,7 +944,7 @@ const App = () => {
             whileInView={{ opacity: 1, scale: 1, filter: "blur(0px) brightness(1)" }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
-            className="kaito-border p-12 md:p-24 relative overflow-hidden bg-white/[0.01]"
+            className="kaito-border p-6 sm:p-12 md:p-24 relative overflow-hidden bg-white/[0.01]"
           >
             <div className="grid lg:grid-cols-2 gap-24 relative z-10">
               <div>
