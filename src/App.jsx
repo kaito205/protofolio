@@ -177,7 +177,9 @@ const App = () => {
 
   const navLinks = [
     { name: 'Showtime', href: '#home' },
-    { name: 'The Phantom', href: '#phantom' },
+    { name: 'Phantom', href: '#phantom' },
+    { name: 'Identity', href: '#identity' },
+    { name: 'Journey', href: '#roadmap' },
     { name: 'Treasures', href: '#projects' },
     { name: 'Contracts', href: '#services' },
     { name: 'Tricks', href: '#skills' },
@@ -615,7 +617,7 @@ const App = () => {
             transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
             className="order-1 md:order-2"
           >
-            <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Biography</span>
+            <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Biography — Tentang Saya</span>
             <h2 className="text-4xl md:text-6xl font-serif italic font-bold mb-10 leading-tight">Mastering the Art of <span className="kaito-gradient-text">Invisible Code</span>.</h2>
             <p className="text-slate-400 text-lg leading-relaxed mb-8 font-light">
               Layaknya seorang pencuri bayangan yang tidak meninggalkan jejak, saya membangun arsitektur yang mulus, efisien, dan memiliki kekuatan yang misterius. Fokus saya adalah menciptakan pengalaman digital yang terasa seperti keajaiban bagi pengguna, namun tetap kokoh dan profesional di balik layar.
@@ -624,6 +626,187 @@ const App = () => {
               Saya berspesialisasi dalam seni React, pengembangan Full-Stack, dan kerajinan halus untuk kesempurnaan UI/UX.
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Identity Section - Behind The Mask */}
+      <section id="identity" className="py-32 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2 }}
+              className="relative"
+            >
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl animate-pulse"></div>
+              <div className="relative z-10 p-8 sm:p-12 kaito-border bg-slate-900/40 backdrop-blur-md">
+                <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">Decoded Dossier</span>
+                <h2 className="text-4xl md:text-5xl font-serif italic font-bold mb-8 leading-tight">Behind the <span className="kaito-gradient-text">Identity</span>.</h2>
+                <div className="space-y-6 text-slate-400 text-lg leading-relaxed font-light">
+                  <p>
+                    Perjalanan saya di dunia teknologi dimulai dengan rasa penasaran yang mendalam tentang bagaimana keajaiban digital diciptakan. Seperti seorang pesulap yang mempelajari rahasia di balik trik, saya mendedikasikan waktu saya untuk memahami arsitektur kode dan estetika desain.
+                  </p>
+                  <p>
+                    Saya percaya bahwa setiap baris kode harus memiliki tujuan, dan setiap piksel harus memberikan dampak emosional. Fokus saya bukan hanya membangun fungsionalitas, tapi menciptakan pengalaman yang tak terlupakan bagi setiap pengguna.
+                  </p>
+                </div>
+                
+                <div className="mt-12 grid grid-cols-2 gap-8">
+                  <div className="group">
+                    <h4 className="text-white font-bold mb-4 flex items-center gap-3">
+                       <Library size={18} className="text-blue-500 group-hover:rotate-12 transition-transform" /> Education
+                    </h4>
+                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-black leading-relaxed">
+                        Informatics Engineering Student<br/>
+                        <span className="text-blue-400/50 italic">Passionate Learner</span>
+                    </p>
+                  </div>
+                  <div className="group">
+                    <h4 className="text-white font-bold mb-4 flex items-center gap-3">
+                       <Pocket size={18} className="text-blue-500 group-hover:rotate-12 transition-transform" /> Mission
+                    </h4>
+                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-black leading-relaxed">
+                        Digital Alchemy<br/>
+                        <span className="text-blue-400/50 italic">Crafting Perfection</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="relative lg:block group perspective-2000"
+            >
+              {/* Card Container with 3D Flip */}
+              <motion.div 
+                className="relative w-full aspect-[3/4] max-w-sm mx-auto preserve-3d cursor-pointer"
+                whileHover={{ rotateY: 180 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Front Face - Kaito Kid (4.png) */}
+                <div className="backface-hidden absolute inset-0 border kaito-border p-2 bg-slate-900/80 shadow-2xl overflow-hidden">
+                   <div className="w-full h-full bg-[#111] overflow-hidden relative">
+                      <img 
+                        src="/assets/kaito_matching.png" 
+                        alt="Kaito Kid Persona" 
+                        className="w-full h-full object-cover brightness-110"
+                      />
+                      <div className="absolute inset-0 bg-blue-900/10"></div>
+                      <div className="absolute top-4 left-4 text-white/50 text-4xl font-serif">?</div>
+                      <div className="absolute bottom-4 right-4 text-white/50 text-4xl font-serif rotate-180">?</div>
+                   </div>
+                   <div className="absolute top-0 right-0 bg-white text-black text-[10px] font-black px-4 py-2 uppercase tracking-widest -translate-y-1/2 translate-x-1/2 shadow-xl z-20">
+                      The Phantom
+                   </div>
+                </div>
+
+                {/* Back Face - User Avatar (avatar.jpg) */}
+                <div className="backface-hidden rotate-y-180 absolute inset-0 border kaito-border p-2 bg-blue-600/10 shadow-2xl overflow-hidden">
+                   <div className="w-full h-full bg-[#111] overflow-hidden relative border border-blue-500/30">
+                      <img 
+                        src="/assets/avatar.jpg" 
+                        alt="Muhammad Jaja Maulana" 
+                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                        onError={(e) => {
+                            e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-600/30 to-transparent"></div>
+                      <div className="absolute top-4 left-4 text-blue-500/50 text-4xl font-serif">A</div>
+                      <div className="absolute bottom-4 right-4 text-blue-500/50 text-4xl font-serif rotate-180">A</div>
+                   </div>
+                   <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-2 uppercase tracking-widest -translate-y-1/2 translate-x-1/2 shadow-xl z-20">
+                      Verified User
+                   </div>
+                </div>
+
+                {/* Decorative Elements */}
+                <div className="absolute -inset-6 border border-blue-500/5 -z-10 rounded-full animate-pulse group-hover:border-blue-500/20 transition-colors"></div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Learning Journey Section - The Grand Roadmap */}
+      <section id="roadmap" className="py-32 relative bg-white/[0.01]">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2 }}
+            className="text-center mb-24"
+          >
+            <span className="text-blue-500 font-black uppercase tracking-[0.4em] text-[10px] mb-6 block">The Heist Preparation</span>
+            <h2 className="text-5xl md:text-7xl font-serif italic font-bold">The Grand <span className="kaito-gradient-text">Journey</span></h2>
+          </motion.div>
+
+          <div className="relative">
+            {/* Center Line */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent hidden md:block"></div>
+            
+            <div className="space-y-16">
+              {[
+                {
+                  year: "2022",
+                  title: "The Awakening",
+                  desc: "Mulai perjalanan di dunia pemrograman dengan mempelajari dasar-dasar HTML, CSS, dan algoritma. Membangun struktur pemikiran logis.",
+                  align: "right",
+                  icon: <Zap size={20} />
+                },
+                {
+                  year: "2023",
+                  title: "The Infiltration",
+                  desc: "Mendalami ekosistem JavaScript dan mulai menjelajahi framework Modern seperti React. Fokus pada pembuatan antarmuka yang responsif.",
+                  align: "left",
+                  icon: <Monitor size={20} />
+                },
+                {
+                  year: "2024",
+                  title: "Mastering the Tools",
+                  desc: "Memperluas keahlian ke ranah Full-Stack dengan Laravel dan integrasi Database. Menyelesaikan beberapa proyek sistem informasi nyata.",
+                  align: "right",
+                  icon: <Database size={20} />
+                },
+                {
+                  year: "2025",
+                  title: "The Showtime",
+                  desc: "Mengasah kemampuan dalam optimasi performa dan UI/UX tingkat lanjut. Siap untuk memberikan solusi digital yang transformatif.",
+                  align: "left",
+                  icon: <Sparkles size={20} />
+                }
+              ].map((step, idx) => (
+                <div key={idx} className={`flex items-center gap-8 ${step.align === 'left' ? 'md:flex-row-reverse' : ''} relative`}>
+                  {/* Content */}
+                  <motion.div 
+                    initial={{ opacity: 0, x: step.align === 'right' ? 50 : -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: idx * 0.2 }}
+                    className="w-full md:w-1/2 bg-slate-900/50 kaito-border p-8 relative group hover:bg-blue-600/5 transition-colors"
+                  >
+                    <div className="absolute top-0 right-0 p-4 text-white/5 font-serif italic text-6xl group-hover:text-blue-500/10 transition-colors">
+                      {step.year}
+                    </div>
+                    <div className="text-blue-500 mb-4">{step.icon}</div>
+                    <h3 className="text-2xl font-serif italic font-bold mb-4">{step.title}</h3>
+                    <p className="text-slate-400 font-light text-sm leading-relaxed">{step.desc}</p>
+                    
+                    {/* Glowing Marker (Mobile only shows at the side, desktop shows on the center line) */}
+                    <div className={`absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.8)] hidden md:block ${step.align === 'right' ? '-left-[42px]' : '-right-[42px]'}`}></div>
+                  </motion.div>
+                  <div className="hidden md:block w-1/2"></div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
