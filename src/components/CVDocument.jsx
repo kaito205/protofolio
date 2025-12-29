@@ -60,7 +60,7 @@ const CVDocument = () => {
               <div>
                 <p className="font-bold text-slate-800 text-sm md:text-base">Informatics Engineering</p>
                 <p className="text-[10px] md:text-xs text-slate-500 italic uppercase">STMIK MARDIRA INDONESIA</p>
-                <p className="text-[10px] md:text-xs text-blue-600 font-bold mt-1">2023 — Present (Semester 5)</p>
+                <p className="text-[10px] md:text-xs text-blue-600 font-bold mt-1">2023 — 2025 (Semester 5)</p>
               </div>
               <div>
                 <p className="font-bold text-slate-800 text-sm md:text-base">Science Program</p>
