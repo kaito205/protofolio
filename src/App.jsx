@@ -28,8 +28,15 @@ import {
   Terminal,
   Monitor,
   Coffee,
-  MessageCircle
+  MessageCircle,
+  Download,
+  X,
+  Printer,
+  FileDown
 } from 'lucide-react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import CVDocument from './components/CVDocument';
 
 const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -168,6 +175,53 @@ const App = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isIdentityFlipped, setIsIdentityFlipped] = useState(false);
   const [isHeroFlipped, setIsHeroFlipped] = useState(false);
+  const [showCV, setShowCV] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadPDF = async () => {
+    const element = document.getElementById('cv-content');
+    if (!element) {
+      console.error('CV element not found');
+      return;
+    }
+    
+    setIsDownloading(true);
+    
+    // Wait a tiny bit for any layout adjustments
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: true, // Helpful for debugging
+        windowWidth: 1200, // Forces a consistent width for capture
+      });
+      
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        compress: true
+      });
+      
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      
+      // If content is longer than one page, it will still fit one page but be scaled
+      // This is usually preferred for CVs unless they are multi-page
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('CV_Muhammad_Jaja_Maulana.pdf');
+    } catch (error) {
+      alert("Gagal mengunduh PDF. Silakan coba gunakan fitur 'Print' dan pilih 'Save as PDF'.");
+      console.error('PDF Generation Error:', error);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -319,9 +373,12 @@ const App = () => {
               </li>
             ))}
             <li>
-              <a href="/CV_Muhammad_Jaja_Maulana.pdf" download className="text-slate-400 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+              <button 
+                onClick={() => setShowCV(true)}
+                className="text-slate-400 hover:text-white transition-colors text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 cursor-pointer"
+              >
                 <FileUser size={14} /> License
-              </a>
+              </button>
             </li>
             <li>
               <a href="#contact" className="bg-white text-black hover:bg-blue-50 px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all hover:-translate-y-1 shadow-[0_0_20px_rgba(255,255,255,0.2)]">Connect</a>
@@ -423,14 +480,15 @@ const App = () => {
                     {link.name}
                   </button>
                 ))}
-                <a 
-                  href="/CV_Muhammad_Jaja_Maulana.pdf" 
-                  download 
+                <button 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setShowCV(true);
+                  }}
                   className="text-slate-400 text-sm font-bold uppercase tracking-widest flex items-center gap-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <FileUser size={18} /> License
-                </a>
+                </button>
                 <button 
                   onClick={() => {
                     setIsMobileMenuOpen(false);
@@ -523,14 +581,13 @@ const App = () => {
                 className="mt-8 flex items-center gap-4"
               >
                 <div className="h-px w-12 bg-white/10"></div>
-                <a 
-                  href="/CV_Muhammad_Jaja_Maulana.pdf" 
-                  download
-                  className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 hover:text-blue-400 transition-colors flex items-center gap-3 group"
+                <button 
+                  onClick={() => setShowCV(true)}
+                  className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 hover:text-blue-400 transition-colors flex items-center gap-3 group cursor-pointer"
                 >
                   <FileUser size={14} className="group-hover:rotate-12 transition-transform" />
-                  Download The License (CV)
-                </a>
+                  View The License (CV)
+                </button>
               </motion.div>
           </motion.div>
 
@@ -702,13 +759,13 @@ const App = () => {
                 onClick={() => setIsIdentityFlipped(!isIdentityFlipped)}
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               >
-                {/* Front Face - Kaito Kid (4.png) */}
-                <div className="backface-hidden absolute inset-0 border kaito-border p-2 bg-slate-900/80 shadow-2xl overflow-hidden">
+                {/* Front Face - Kaito Kid (kaito_matching.png) */}
+                <div className="backface-hidden absolute inset-0 border kaito-border p-2 bg-slate-900/80 shadow-2xl">
                    <div className="w-full h-full bg-[#111] overflow-hidden relative">
                       <img 
-                        src="/assets/kaito_matching.png" 
+                        src="/assets/kaito.png" 
                         alt="Kaito Kid Persona" 
-                        className="w-full h-full object-cover brightness-110"
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-blue-900/10"></div>
                       <div className="absolute top-4 left-4 text-white/50 text-4xl font-serif">?</div>
@@ -719,16 +776,16 @@ const App = () => {
                           Tap to Reveal
                       </div>
                    </div>
-                   <div className="absolute top-0 right-0 bg-white text-black text-[10px] font-black px-4 py-2 uppercase tracking-widest -translate-y-1/2 translate-x-1/2 shadow-xl z-20">
+                   <div className="absolute top-0 right-0 bg-white text-black text-[10px] font-black px-4 py-2 uppercase tracking-widest -translate-y-1/3 translate-x-1/3 shadow-xl z-20">
                       The Phantom
                    </div>
                 </div>
 
-                {/* Back Face - User Avatar (avatar.jpg) */}
-                <div className="backface-hidden rotate-y-180 absolute inset-0 border kaito-border p-2 bg-blue-600/10 shadow-2xl overflow-hidden">
+                {/* Back Face - User Avatar (avatar.png) */}
+                <div className="backface-hidden rotate-y-180 absolute inset-0 border kaito-border p-2 bg-blue-600/10 shadow-2xl">
                    <div className="w-full h-full bg-[#111] overflow-hidden relative border border-blue-500/30">
                       <img 
-                        src="/assets/avatar.jpg" 
+                        src="/assets/avatar.png" 
                         alt="Muhammad Jaja Maulana" 
                         className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
                         onError={(e) => {
@@ -739,7 +796,7 @@ const App = () => {
                       <div className="absolute top-4 left-4 text-blue-500/50 text-4xl font-serif">A</div>
                       <div className="absolute bottom-4 right-4 text-blue-500/50 text-4xl font-serif rotate-180">A</div>
                    </div>
-                   <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-2 uppercase tracking-widest -translate-y-1/2 translate-x-1/2 shadow-xl z-20">
+                   <div className="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-black px-4 py-2 uppercase tracking-widest -translate-y-1/3 translate-x-1/3 shadow-xl z-20">
                       Verified User
                    </div>
                 </div>
@@ -1104,7 +1161,7 @@ const App = () => {
               },
               { 
                 name: "Adam Rifa", 
-                role: "Mahasiswa Universitas Galuh (UNIGAL)", 
+                role: "Mahasiswa STMIK MARDIRA INDONESIA", 
                 text: "Kreativitasnya dalam coding selalu menginspirasi. Dia selalu punya cara 'ajaib' untuk menyelesaikan masalah teknis yang sulit.",
                 type: "Analysis Result"
               }
@@ -1194,6 +1251,99 @@ const App = () => {
         <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-600 mb-4">&copy; 2025 Muhammad Jaja Maulana. All rights reserved.</p>
         <p className="text-[10px] italic font-serif text-slate-700">Under the pale moonlight.</p>
       </footer>
+
+      {/* CV Modal Overlay */}
+      <AnimatePresence>
+        {showCV && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[5000] bg-black/95 backdrop-blur-xl flex flex-col items-center overflow-y-auto p-4 md:p-10 scrollbar-hide"
+          >
+            {/* Modal Controls */}
+            <div className="max-w-[210mm] w-full flex justify-between items-center mb-6 sticky top-0 z-10 bg-black/50 backdrop-blur-md p-4 rounded-xl border border-white/10">
+              <div className="flex flex-wrap gap-3">
+                <button 
+                  onClick={handleDownloadPDF}
+                  disabled={isDownloading}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <FileDown size={16} /> 
+                  {isDownloading ? 'Generating...' : 'Download PDF'}
+                </button>
+                <button 
+                  onClick={() => window.print()} 
+                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/10 px-5 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all"
+                >
+                  <Printer size={16} /> Print
+                </button>
+              </div>
+              <button 
+                onClick={() => setShowCV(false)}
+                className="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-full flex items-center justify-center transition-all group"
+              >
+                <X size={24} className="group-hover:rotate-90 transition-transform duration-500" />
+              </button>
+            </div>
+
+            {/* Content for Display */}
+            <motion.div 
+              initial={{ y: 50, scale: 0.95 }}
+              animate={{ y: 0, scale: 1 }}
+              className="w-full relative shadow-[0_0_100px_rgba(0,0,0,0.5)]"
+            >
+              <CVDocument />
+            </motion.div>
+
+            {/* Print Only Styles */}
+            <style dangerouslySetInnerHTML={{ __html: `
+              @media print {
+                /* Hide everything by default */
+                body * { 
+                  visibility: hidden; 
+                  overflow: visible !important;
+                }
+                
+                /* Reset backgrounds for clean print */
+                body, html {
+                  background: white !important;
+                  height: auto !important;
+                }
+
+                /* Show ONLY the CV content */
+                #cv-content, #cv-content * { 
+                  visibility: visible; 
+                }
+
+                /* Position the CV perfectly at the top left */
+                #cv-content { 
+                  position: absolute; 
+                  left: 0; 
+                  top: 0; 
+                  width: 100%; 
+                  margin: 0; 
+                  padding: 20px;
+                  box-shadow: none !important;
+                  border: none !important;
+                }
+
+                /* Prevent multiple pages/empty containers from showing up */
+                .fixed, .fixed *, section, nav, footer, #home, #phantom, #projects, #services, #skills, #roadmap { 
+                  display: none !important; 
+                }
+                
+                /* Remove any fixed/absolute z-indexed backdrops */
+                [class*="backdrop-blur"], [class*="bg-black/95"] {
+                  display: none !important;
+                }
+              }
+              .scrollbar-hide::-webkit-scrollbar { display: none; }
+              .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+            ` }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>
