@@ -112,20 +112,20 @@ const CVDocument = () => {
               </div>
               <div>
                 <div className="flex justify-between items-start mb-1 gap-2">
+                  <h4 className="font-bold text-slate-800 uppercase text-sm md:text-base">Luxurious Hotel Booking</h4>
+                  <span className="text-[8px] md:text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 font-bold rounded flex-shrink-0">REACT + NODE.JS + EXPRESS</span>
+                </div>
+                <p className="text-[10px] md:text-xs text-slate-600 leading-relaxed">
+                  Platform pemesanan hotel mewah dengan sistem manajemen ketersediaan kamar dan reservasi instan yang elegan. Sinkronisasi database real-time untuk akurasi slot kamar 100%.
+                </p>
+              </div>
+              <div>
+                <div className="flex justify-between items-start mb-1 gap-2">
                   <h4 className="font-bold text-slate-800 uppercase text-sm md:text-base">PPDB Management System</h4>
                   <span className="text-[8px] md:text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 font-bold rounded flex-shrink-0">LARAVEL + REACT</span>
                 </div>
                 <p className="text-[10px] md:text-xs text-slate-600 leading-relaxed">
                   Mengembangkan sistem penerimaan siswa baru terintegrasi yang menangani pendaftaran, validasi dokumen, dan manajemen database secara real-time untuk SMA ERHA Jatinagara.
-                </p>
-              </div>
-              <div>
-                <div className="flex justify-between items-start mb-1 gap-2">
-                  <h4 className="font-bold text-slate-800 uppercase text-sm md:text-base">Advanced HealthCare System</h4>
-                  <span className="text-[8px] md:text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 font-bold rounded flex-shrink-0">LARAVEL + MYSQL</span>
-                </div>
-                <p className="text-[10px] md:text-xs text-slate-600 leading-relaxed">
-                  Digitalisasi rekam medis dan manajemen janji temu dokter yang aman dan terenkripsi, mempermudah akses data pasien bagi tenaga medis.
                 </p>
               </div>
             </div>
