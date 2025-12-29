@@ -307,6 +307,7 @@ const App = () => {
             href="#" 
             className="text-2xl md:text-3xl font-bold tracking-tighter"
             whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             MAJMU<span className="text-blue-500">.</span>
           </motion.a>
@@ -507,6 +508,7 @@ const App = () => {
               </motion.a>
               <motion.a 
                 whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                whileTap={{ scale: 0.95 }}
                 href="#contact" 
                 className="group flex items-center justify-center gap-3 border border-white/20 px-6 md:px-10 py-4 md:py-5 rounded-[2px] text-[10px] md:text-xs font-black uppercase tracking-widest transition-all w-full sm:w-auto"
               >
@@ -805,6 +807,7 @@ const App = () => {
                     initial={{ opacity: 0, x: step.align === 'right' ? 50 : -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
+                    whileTap={{ scale: 0.98 }}
                     transition={{ duration: 1, delay: idx * 0.2 }}
                     className="w-full md:w-1/2 bg-slate-900/50 kaito-border p-8 relative group hover:bg-blue-600/5 transition-colors"
                   >
@@ -901,6 +904,7 @@ const App = () => {
                   rotateZ: 0.5,
                   transition: { type: "spring", stiffness: 300, damping: 20 }
                 }}
+                whileTap={{ scale: 0.95 }}
                 className="group kaito-border bg-[#020617] p-2 md:p-4 kaito-card-shadow transition-all perspective-1000"
               >
                 <div className="h-48 sm:h-64 md:h-80 overflow-hidden relative border border-white/5 mb-8">
@@ -987,6 +991,7 @@ const App = () => {
                   backgroundColor: "rgba(37, 99, 235, 0.1)",
                   boxShadow: "0 0 40px rgba(37, 99, 235, 0.2)"
                 }}
+                whileTap={{ scale: 0.9 }}
                 className="w-[100px] md:w-[140px] p-4 md:p-6 border kaito-border flex flex-col items-center gap-4 text-center group transition-colors rounded-[2px]"
               >
                 <div className="text-white opacity-40 group-hover:opacity-100 group-hover:text-blue-500 transition-all">{s.icon}</div>
@@ -1037,6 +1042,7 @@ const App = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                whileTap={{ scale: 0.98 }}
                 transition={{ delay: idx * 0.2, duration: 1 }}
                 className="p-10 kaito-border bg-slate-900/50 hover:bg-blue-600/5 transition-all group relative overflow-hidden"
               >
@@ -1108,6 +1114,7 @@ const App = () => {
                 initial={{ opacity: 0, y: 30, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
+                whileTap={{ scale: 0.98 }}
                 transition={{ delay: idx * 0.2, duration: 1 }}
                 whileHover={{ y: -10 }}
                 className="p-8 kaito-border bg-white/[0.02] backdrop-blur-sm relative group"
